@@ -1,4 +1,7 @@
 import java.util.Scanner;
+
+import junit.framework.Test;
+
 import java.util.Arrays;
 
 public class TextAdventure {
@@ -8,6 +11,8 @@ public class TextAdventure {
     private final String[] contextIndependentCommands;
     private Player player;
     private String currentState;
+    Slime slime1 = new Slime();
+    Slime slime2 = new Slime();
 
     public TextAdventure() {
         gameOver = false;
@@ -42,10 +47,39 @@ public class TextAdventure {
                     if (player.itemInInventory("key")) {
                         System.out.println("You used the key to open the door.");
                         currentState = "hallway";
+                        System.out.println("You are standing in a long hallway. A rusty sword lies on the floor. There are two passages: one to the north and one to the south.");
                     }
                     else {
                         System.out.println("You don't have a key in your inventory");
                     }
+                }
+            }
+            else if (currentState.equals("hallway")) {
+                if (command.equals("look sword")) {
+                    System.out.println("A sword whose better days are behind it. Not much use in a fight, but better than nothing. ATK: 1");
+                }
+                else if(command.equals("take sword")) {
+                    if (!player.itemInInventory("sword")) {
+                        player.addItem("sword");
+                    }
+                }
+                else if (command.equals("go north") || command.equals("go south")) {
+                    // Doesn't actually matter if you go north or south because I'm lazy and
+                    currentState = "hallway2";
+                    System.out.println("You are attacked by a group of slimes! You can run away to the west or fight them.");
+                }
+            }
+            else if (currentState.equals("hallway2")) {
+                if (command.equals("look slime")) {
+                    System.out.println("Two common slimes. Not very dangerous, but still a risk to fight them.");
+                }
+                else if (command.equals("go west")) {
+                    currentState = "hallway3";
+                }
+                else if (command.equals("use sword") && player.itemInInventory("sword")) {
+                    System.out.println("You attack the slimes.");
+                    slime1.takeDamage(3);
+                    slime2.takeDamage(3);
                 }
             }
         }
@@ -53,6 +87,7 @@ public class TextAdventure {
     public void processIndependentCommand(String command) {
         if (command.equals("info")) {
             player.printInfo();
+            System.out.println("Current location: " + currentState);
         }
         else if (command.equals("drop")) {
             player.removeItem(command.substring(5));
