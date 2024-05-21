@@ -50,6 +50,9 @@ public class TextAdventure {
                         System.out.println("You don't have a key in your inventory");
                     }
                 }
+                else {
+                    processUnrecognizedCommand(command);
+                }
             }
             else if (currentState.equals("hallway")) {
                 if (command.equals("look sword")) {
@@ -65,6 +68,9 @@ public class TextAdventure {
                     currentState = "hallway2";
                     System.out.println("You are attacked by a group of slimes! You can run away to the west or fight them.");
                 }
+                else {
+                    processUnrecognizedCommand(command);
+                }
             }
             else if (currentState.equals("hallway2")) {
                 if (command.equals("look slime")) {
@@ -74,17 +80,23 @@ public class TextAdventure {
                     currentState = "room";
                     System.out.println("You arrive in a small room. You see a middle-aged man leaning against the wall. He is holding a greatsword.");
                     npc dareth = new npc();
-                    dareth.talk();
                 }
                 else if (command.equals("use sword") && player.itemInInventory("sword")) {
                     System.out.println("You attack the slimes.");
                     slime1.takeDamage(3);
                     slime2.takeDamage(3);
                 }
+                else {
+                    processUnrecognizedCommand(command);
+                }
             }
             else if (currentState.equals("room")) {
+                dareth.talk();
                 if (command.equals("info dareth")) {
                     System.out.println("Unlike everyone else in the dungeon, Dareth is a normal weight.");
+                }
+                else {
+                    processUnrecognizedCommand(command);
                 }
             }
         }
@@ -101,7 +113,10 @@ public class TextAdventure {
             printHelp();
         }
     }
-
+    public void processUnrecognizedCommand(String command) {
+        System.out.println(command + " is not a valid command in this context.");
+    }
+    
     public void printHelp() {
         System.out.println("Commands: ");
         System.out.println("GO {location}: moves to location if possible");
