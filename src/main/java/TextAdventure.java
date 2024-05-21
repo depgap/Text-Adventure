@@ -1,7 +1,4 @@
 import java.util.Scanner;
-
-import junit.framework.Test;
-
 import java.util.Arrays;
 
 public class TextAdventure {
@@ -74,12 +71,20 @@ public class TextAdventure {
                     System.out.println("Two common slimes. Not very dangerous, but still a risk to fight them.");
                 }
                 else if (command.equals("go west")) {
-                    currentState = "hallway3";
+                    currentState = "room";
+                    System.out.println("You arrive in a small room. You see a middle-aged man leaning against the wall. He is holding a greatsword.");
+                    npc dareth = new npc();
+                    dareth.talk();
                 }
                 else if (command.equals("use sword") && player.itemInInventory("sword")) {
                     System.out.println("You attack the slimes.");
                     slime1.takeDamage(3);
                     slime2.takeDamage(3);
+                }
+            }
+            else if (currentState.equals("room")) {
+                if (command.equals("info dareth")) {
+                    System.out.println("Unlike everyone else in the dungeon, Dareth is a normal weight.");
                 }
             }
         }

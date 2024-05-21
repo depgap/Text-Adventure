@@ -16,7 +16,7 @@ public class Player {
             return;
         }
         for (int i = 0; i < inventory.size(); i++) {
-            System.out.print(inventory.get(i));
+            System.out.print(inventory.get(i) + " ");
         }
         System.out.println();
     }
