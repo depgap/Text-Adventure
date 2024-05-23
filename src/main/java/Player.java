@@ -42,6 +42,9 @@ public class Player {
         }
         return false;
     }
+    public void setHealth(double health) {
+        this.health = health;
+    }
     
     
 }

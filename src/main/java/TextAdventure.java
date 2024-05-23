@@ -88,6 +88,8 @@ public class TextAdventure {
                     System.out.println("You attack the slimes.");
                     slime1.takeDamage(3);
                     slime2.takeDamage(3);
+                    System.out.println("The slimes drop a relic that increases your health.");
+                    player.setHealth(120);
                 }
                 else {
                     processUnrecognizedCommand(command);
