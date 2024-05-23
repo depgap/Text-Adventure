@@ -1,6 +1,70 @@
-public class npc {
-    public void talk(String response) {
-        System.out.println("Greetings traveller. I am Dareth the Forsaken. What brings you to this wretched place? Ah, no matter. Perhaps with our combined efforts we can find a way out of this sorrowful place. What do you say? (Y/N)");
+import java.util.Scanner;
+
+public class npc extends Enemy {
+
+    private Scanner scan = new Scanner(System.in);
+
+    public npc () {
+        super("Dareth", 200);
     }
     
+    public void talk() {
+        System.out.println("NPC: Greetings traveller. I am Dareth the Forsaken. What brings you to this wretched place? Ah, no matter. Perhaps with our combined efforts we can find a way out of this sorrowful place. What do you say? (Y/N)");
+    }
+    public String dialogueTree() {
+        while (true) {
+            String response = scan.nextLine().toLowerCase();
+
+            if (response.equals("y")) {
+                while (true) {
+                    System.out.println("NPC: A wise decision. We should continue north.");
+
+                    System.out.println("1. Ask who he is.");
+                    System.out.println("2. Do you know anything about this place?");
+                    response = scan.nextLine();
+
+                    if (response.equals("1")) {
+                        System.out.println("NPC: I am a former soldier who fought in the Great War 20 years ago. ");
+                        return "north";
+                    }
+                    else if (response.equals("2")) {
+                        System.out.println("NPC: This is a place where enemies of the state are imprisoned. It is strange that you would be able to leave your cell.");
+                        return "north";
+                    }
+                    else {
+                        System.out.println("NPC: I didn't understand that");
+                    }
+                }
+            }
+            else if (response.equals("n")) {
+                while (true) {
+                    response = scan.nextLine();
+                    System.out.println("NPC: Unfortunate. However, it is wise not to trust strangers.");
+                    System.out.println("1. Attack Dareth.");
+                    System.out.println("2. Leave.");
+                    System.out.println("3. Ask what he is doing here.");
+
+                    if (response.equals("1")) {
+                        System.out.println("You attack Dareth. He responds quickly and without hesitation.");
+                        return "combat";
+                    }
+                    else if (response.equals("2")) {
+                        return "leave";
+                    }
+                    else if (response.equals("3")) {
+                        while (true) {
+                            System.out.println("NPC: The same as you, I suppose. Even if you do not want to join forces, I still have a word of advice: beware the ");
+                            return "leave";
+                        }
+                    }
+                    else {
+                        System.out.println("NPC: What do you mean?");
+                    }
+                }
+            }
+            else {
+                System.out.println("NPC: Hmm, I didn't understand that.");
+            }
+        }
+    }
 }

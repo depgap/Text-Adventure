@@ -10,6 +10,7 @@ public class TextAdventure {
     private String currentState;
     Slime slime1 = new Slime();
     Slime slime2 = new Slime();
+    private npc dareth;
 
     public TextAdventure() {
         gameOver = false;
@@ -17,6 +18,7 @@ public class TextAdventure {
         contextIndependentCommands = new String[]{"info", "drop", "help"};
         player = new Player();
         currentState = "cell";
+        dareth = new npc();
     }
 
     public void gameLoop() {
@@ -78,8 +80,9 @@ public class TextAdventure {
                 }
                 else if (command.equals("go west")) {
                     currentState = "room";
-                    System.out.println("You arrive in a small room. You see a middle-aged man leaning against the wall. He is holding a greatsword.");
-                    npc dareth = new npc();
+                    System.out.println("You arrive in a small room. You see a middle-aged man leaning against the wall. He is holding a greatsword.\n");
+                    dareth.talk();
+                    dareth.dialogueTree();
                 }
                 else if (command.equals("use sword") && player.itemInInventory("sword")) {
                     System.out.println("You attack the slimes.");
@@ -91,13 +94,6 @@ public class TextAdventure {
                 }
             }
             else if (currentState.equals("room")) {
-                dareth.talk();
-                if (command.equals("info dareth")) {
-                    System.out.println("Unlike everyone else in the dungeon, Dareth is a normal weight.");
-                }
-                else {
-                    processUnrecognizedCommand(command);
-                }
             }
         }
     }
