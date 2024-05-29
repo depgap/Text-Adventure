@@ -11,6 +11,7 @@ public class TextAdventure {
     Slime slime1 = new Slime();
     Slime slime2 = new Slime();
     private npc dareth;
+    private String npcOutcome;
 
     public TextAdventure() {
         gameOver = false;
@@ -79,10 +80,23 @@ public class TextAdventure {
                     System.out.println("Two common slimes. Not very dangerous, but still a risk to fight them.");
                 }
                 else if (command.equals("go west")) {
-                    currentState = "room";
                     System.out.println("You arrive in a small room. You see a middle-aged man leaning against the wall. He is holding a greatsword.\n");
                     dareth.talk();
-                    dareth.dialogueTree();
+                    npcOutcome = dareth.dialogueTree();
+
+                    if (npcOutcome.equals("combat")) {
+                        if (player.itemInInventory("sword")) {
+                            System.out.println("You use your sword to disarm Dareth. He lies gasping on the ground, no longer a threat.");
+                            System.out.println("The greatsword he drops is much stronger than your current one.");
+                            System.out.println("The only remaining path is to the north.");
+                            currentState = "wd";
+                        }
+                        else {
+                            System.out.println("You are defenseless against his attacks. You take 50 damage. You are forced to retreat to the north.");
+                            player.changeHealth(-50);
+                            currentState = "traps";
+                        }
+                    }
                 }
                 else if (command.equals("use sword") && player.itemInInventory("sword")) {
                     System.out.println("You attack the slimes.");
@@ -95,7 +109,18 @@ public class TextAdventure {
                     processUnrecognizedCommand(command);
                 }
             }
-            else if (currentState.equals("room")) {
+            else if (currentState.equals("wd")) {
+                if (command.equals("take greatsword")) {
+                    player.addItem("greatsword");
+                }
+                else if (command.equals("go north")) {
+                    currentState.equals("traps");
+                }
+                else {
+                    processUnrecognizedCommand(command);
+                }
+            }
+            else if (currentState.equals("traps")) {
             }
         }
     }

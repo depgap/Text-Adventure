@@ -57,6 +57,7 @@ public class Player {
     public void setHealth(double health) {
         this.health = health;
     }
-    
-    
+    public void changeHealth(double delta) {
+        health += delta;
+    }
 }
