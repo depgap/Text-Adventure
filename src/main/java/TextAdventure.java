@@ -32,7 +32,7 @@ public class TextAdventure {
     }
 
     public void processCommand(String command) {
-        if (Arrays.asList(contextIndependentCommands).contains(command)) {
+        if (Arrays.asList(contextIndependentCommands).contains(command.substring(0, 4))) {
             processIndependentCommand(command);
         }
         else {
@@ -97,6 +97,10 @@ public class TextAdventure {
                             currentState = "traps";
                         }
                     }
+                    else if (npcOutcome.equals("north")) {
+                        System.out.println("You go north.");
+                        currentState = "traps";
+                    }
                 }
                 else if (command.equals("use sword") && player.itemInInventory("sword")) {
                     System.out.println("You attack the slimes.");
@@ -125,14 +129,14 @@ public class TextAdventure {
         }
     }
     public void processIndependentCommand(String command) {
-        if (command.equals("info")) {
+        if (command.substring(0, 4).equals("info")) {
             player.printInfo();
             System.out.println("Current location: " + currentState);
         }
-        else if (command.equals("drop")) {
+        else if (command.substring(0, 4).equals("drop")) {
             player.removeItem(command.substring(5));
         }
-        else if (command.equals("help")) {
+        else if (command.substring(0, 4).equals("help")) {
             printHelp();
         }
     }
