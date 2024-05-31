@@ -32,7 +32,8 @@ public class TextAdventure {
     }
 
     public void processCommand(String command) {
-        if (Arrays.asList(contextIndependentCommands).contains(command.substring(0, 4))) {
+        // Short circuit evaluation to check if command is long enough to be one of the context independent commands
+        if (command.length() >= 4 && Arrays.asList(contextIndependentCommands).contains(command.substring(0, 4))) {
             processIndependentCommand(command);
         }
         else {
@@ -159,15 +160,17 @@ public class TextAdventure {
         }
     }
     public void processIndependentCommand(String command) {
-        if (command.substring(0, 4).equals("info")) {
-            player.printInfo();
-            System.out.println("Current location: " + currentState);
-        }
-        else if (command.substring(0, 4).equals("drop")) {
-            player.removeItem(command.substring(5));
-        }
-        else if (command.substring(0, 4).equals("help")) {
-            printHelp();
+        if (command.length() >= 4) {
+            if (command.substring(0, 4).equals("info")) {
+                player.printInfo();
+                System.out.println("Current location: " + currentState);
+            }
+            else if (command.substring(0, 4).equals("drop")) {
+                player.removeItem(command.substring(5));
+            }
+            else if (command.substring(0, 4).equals("help")) {
+                printHelp();
+            }
         }
     }
     public void processUnrecognizedCommand(String command) {
