@@ -43,6 +43,18 @@ public class Player {
         }
         System.out.println("Could not find " + item + " in inventory");
     }
+    public void changeItem(String prevItem, String newItem) {
+        if (itemInInventory(prevItem)) {
+            for (int i = 0; i < inventory.size(); i++) {
+                if (inventory.get(i).equals(prevItem)) {
+                    inventory.set(i, newItem);
+                }
+            }
+        }
+        else {
+            return;
+        }
+    }
     public boolean itemInInventory(String item) {
         for (int i = 0; i < inventory.size(); i++) {
             if (item.equals(inventory.get(i))) {

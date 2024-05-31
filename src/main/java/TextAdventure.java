@@ -95,11 +95,13 @@ public class TextAdventure {
                             System.out.println("You are defenseless against his attacks. You take 50 damage. You are forced to retreat to the north.");
                             player.changeHealth(-50);
                             currentState = "traps";
+                            printLocationInfo();
                         }
                     }
                     else if (npcOutcome.equals("north")) {
                         System.out.println("You go north.");
                         currentState = "traps";
+                        printLocationInfo();
                     }
                 }
                 else if (command.equals("use sword") && player.itemInInventory("sword")) {
@@ -119,12 +121,40 @@ public class TextAdventure {
                 }
                 else if (command.equals("go north")) {
                     currentState.equals("traps");
+                    printLocationInfo();
                 }
                 else {
                     processUnrecognizedCommand(command);
                 }
             }
             else if (currentState.equals("traps")) {
+                if (command.equals("go left")) {
+                    System.out.println("As you step on the left hallway, you hear a click, and suddenly flaming arrows fire out of the holes at you!");
+                    currentState = "trapped hallway";
+                }
+                else if (command.equals("go right")) {
+                    System.out.println("The gargoyle statue's eyes light up as you come near at, and its mouth breathes fire at you.");
+                    currentState = "trapped hallway";
+                }
+                else if (command.equals("look pot")) {
+                    System.out.println("A strong metal pot that could be used to hold something");
+                }
+                else if (command.equals("take pot")) {
+                    player.addItem("pot");
+                }
+                else if (command.equals("use pot")){
+                    System.out.println("You fill up the pot with some of the nearby water");
+                    player.changeItem("pot", "waterpot");
+                }
+            }
+            else if (currentState.equals("trapped hallway")) {
+               if (!player.itemInInventory("waterpot")) {
+                    System.out.println("You can't put out the fire and you take 10 damage");
+                    player.changeHealth(-10);
+                }
+                if ((command.equals("use pot") || command.equals("use waterpot")) && player.itemInInventory("waterpot")) {
+                    System.out.println("You use the pot to put out the fire, and you don't take any damage.");
+                }
             }
         }
     }
@@ -142,6 +172,12 @@ public class TextAdventure {
     }
     public void processUnrecognizedCommand(String command) {
         System.out.println(command + " is not a valid command in this context.");
+    }
+
+    public void printLocationInfo() {
+        if (currentState.equals("traps")) {
+            System.out.println("You arrive at a long hallway. An empty pot lies on the ground, next to a pool of water. You can go to the left, where you see some suspicious looking holes in the walls. Or you can go the right, where you see a creepy gargoyle statue.");
+        }
     }
     
     public void printHelp() {
