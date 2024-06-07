@@ -52,9 +52,6 @@ public class Player {
             }
             sortInventory();
         }
-        else {
-            return;
-        }
     }
     public boolean itemInInventory(String item) {
         for (int i = 0; i < inventory.size(); i++) {
