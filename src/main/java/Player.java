@@ -50,6 +50,7 @@ public class Player {
                     inventory.set(i, newItem);
                 }
             }
+            sortInventory();
         }
         else {
             return;
@@ -64,7 +65,57 @@ public class Player {
         return false;
     }
     public void sortInventory() {
-        Collections.sort(inventory);
+        sort(inventory, 0, inventory.size() - 1);
+    }
+    public void merge(ArrayList<String> arr, int l, int m, int r) {
+        int n1 = m - l + 1;
+        int n2 = r - m;
+
+        ArrayList<String> L = new ArrayList<String>(n1);
+        ArrayList<String> R = new ArrayList<String>(n2);
+
+        for (int i = 0; i < n1; i++) {
+            L.add(arr.get(l + i));
+        }
+        for (int j = 0; j < n2; j++) {
+            R.add(arr.get(m + 1 + j));
+        }
+
+        int i = 0;
+        int j = 0;
+
+        int k = l;
+        while (i < n1 && j < n2) {
+            if (L.get(i).compareTo(R.get(j)) < 0) {
+                arr.set(k, L.get(i));
+                i++;
+            }
+            else {
+                arr.set(k, R.get(j));
+                j++;
+            }
+            k++;
+        }
+
+        while (i < n1) {
+            arr.set(k, L.get(i));
+            i++;
+            k++;
+        }
+        while (j < n2) {
+            arr.set(k, R.get(j));
+            j++;
+            k++;
+        }
+    }
+    public void sort(ArrayList<String> arr, int l, int r) {
+        if (l < r) {
+            int m = l + (r - l) / 2;
+            sort(arr, l, m);
+            sort(arr, m + 1, r);
+
+            merge(arr, l, m, r);
+        }
     }
     public void setHealth(double health) {
         this.health = health;
