@@ -23,13 +23,17 @@ public class Player {
         System.out.println();
     }
     public void addItem(String item) {
-        if (inventory.size() < MAX_ITEMS) {
-            inventory.add(item);
-            sortInventory();
-            System.out.println("Added " + item + " to inventory");
+        if (!itemInInventory(item)) {
+            if (inventory.size() < MAX_ITEMS) {
+                inventory.add(item);
+                sortInventory();
+                System.out.println("Added " + item + " to inventory");
+            } else {
+                System.out.println("Your inventory is full");
+            }
         }
         else {
-            System.out.println("Your inventory is full");
+            System.out.println(item + " is already in your inventory");
         }
     }
     public void removeItem(String item) {

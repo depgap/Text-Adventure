@@ -12,14 +12,16 @@ public class TextAdventure {
     Slime slime2 = new Slime();
     private npc dareth;
     private String npcOutcome;
+    private Map map;
 
     public TextAdventure() {
         gameOver = false;
         scan = new Scanner(System.in);
-        contextIndependentCommands = new String[]{"info", "drop", "help"};
+        contextIndependentCommands = new String[]{"info", "drop", "help", "use map"};
         player = new Player();
         currentState = "cell";
         dareth = new npc();
+        map = new Map();
     }
 
     public void gameLoop() {
@@ -170,6 +172,14 @@ public class TextAdventure {
             }
             else if (command.substring(0, 4).equals("help")) {
                 printHelp();
+            }
+            else if (command.equals("use map")) {
+                if (player.itemInInventory("map")) {
+                    map.printMap();
+                }
+                else {
+                    processUnrecognizedCommand(command);
+                }
             }
         }
     }
