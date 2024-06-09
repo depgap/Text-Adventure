@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class npc extends Enemy {
+    // This class contains methods and attributes that the NPC uses
 
     private Scanner scan = new Scanner(System.in);
 
@@ -12,6 +13,8 @@ public class npc extends Enemy {
         System.out.println("NPC: Greetings traveller. I am Dareth the Forsaken. What brings you to this wretched place? Ah, no matter. Perhaps with our combined efforts we can find a way out of this sorrowful place. What do you say? (Y/N)");
     }
     public String dialogueTree() {
+        // Returns a string that contains the outcome of the dialogue tree to be further processed by the main class
+        // The while loops are necessary to return in case of incorrect user input
         while (true) {
             String response = scan.nextLine().toLowerCase();
 

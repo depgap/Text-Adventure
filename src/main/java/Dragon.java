@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class Dragon extends Enemy {
+    // This class contains methods and attributes for the dragon
 
     private Scanner scan;
 

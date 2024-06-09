@@ -1,7 +1,7 @@
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Player {
+    // A class to manage the player and inventory system
     private double health;
     private ArrayList<String> inventory;
     private final int MAX_ITEMS = 5;
@@ -11,6 +11,7 @@ public class Player {
         inventory = new ArrayList<String>();
     }
     public void printInfo() {
+        // Called by TextAdventure, prints out current status
         System.out.println("You have " + health + " health remaining");
         System.out.print("Inventory: ");
         if (inventory.isEmpty()) {
@@ -23,6 +24,7 @@ public class Player {
         System.out.println();
     }
     public void addItem(String item) {
+        // Adds item to inventory if the item isn't already there
         if (!itemInInventory(item)) {
             if (inventory.size() < MAX_ITEMS) {
                 inventory.add(item);
@@ -37,6 +39,7 @@ public class Player {
         }
     }
     public void removeItem(String item) {
+        // Removes an item
         for (int i = 0; i < inventory.size(); i++) {
             if (item.equals(inventory.get(i))) {
                 System.out.println("Removed " + inventory.get(i));
@@ -48,6 +51,7 @@ public class Player {
         System.out.println("Could not find " + item + " in inventory");
     }
     public void changeItem(String prevItem, String newItem) {
+        // Modifies an item to a new state
         if (itemInInventory(prevItem)) {
             for (int i = 0; i < inventory.size(); i++) {
                 if (inventory.get(i).equals(prevItem)) {
@@ -58,6 +62,7 @@ public class Player {
         }
     }
     public boolean itemInInventory(String item) {
+        // Returns true if an item is in the inventory
         for (int i = 0; i < inventory.size(); i++) {
             if (item.equals(inventory.get(i))) {
                 return true;
@@ -66,9 +71,11 @@ public class Player {
         return false;
     }
     public void sortInventory() {
+        // Sorts the inventory
         sort(inventory, 0, inventory.size() - 1);
     }
     public void merge(ArrayList<String> arr, int l, int m, int r) {
+        // Helper method, merge sort
         int n1 = m - l + 1;
         int n2 = r - m;
 
@@ -118,6 +125,7 @@ public class Player {
             merge(arr, l, m, r);
         }
     }
+    // Setters and getters
     public void setHealth(double health) {
         this.health = health;
     }

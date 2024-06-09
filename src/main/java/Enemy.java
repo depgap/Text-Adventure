@@ -1,4 +1,5 @@
 public class Enemy {
+    // A helper class meant to be inherited by the various enemies
 
     private String name;
     private double health;

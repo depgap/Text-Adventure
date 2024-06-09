@@ -2,12 +2,13 @@ import java.util.Scanner;
 import java.util.Arrays;
 
 public class TextAdventure {
+    // This class contains the core game logic
 
     private boolean gameOver;
     private Scanner scan;
     private final String[] contextIndependentCommands;
     private Player player;
-    private String currentState;
+    private String currentState; // Contains the current game location as a string which is used for interpreting context dependent commands
     Slime slime1 = new Slime();
     Slime slime2 = new Slime();
     private npc dareth;
@@ -18,7 +19,7 @@ public class TextAdventure {
     public TextAdventure() {
         gameOver = false;
         scan = new Scanner(System.in);
-        contextIndependentCommands = new String[]{"info", "drop", "help", "use map"};
+        contextIndependentCommands = new String[]{"info", "drop", "help", "use map"}; // This is the list of commands which should be able to be run in any situation
         player = new Player();
         currentState = "cell";
         dareth = new npc();
@@ -27,6 +28,7 @@ public class TextAdventure {
     }
 
     public void gameLoop() {
+        // Continually prompt for commands until the game ends
         System.out.println("\nYou wake up in a dingy, damp prison cell. In front of you, a rusted door is closed. To the right, you notice an iron key.");
         while (!gameOver) {
             System.out.print("> ");
@@ -36,6 +38,7 @@ public class TextAdventure {
     }
 
     public void processCommand(String command) {
+
         // Short circuit evaluation to check if command is long enough to be one of the context independent commands
         if (command.length() >= 4 && Arrays.asList(contextIndependentCommands).contains(command.substring(0, 4)) || command.equals("use map")) {
             processIndependentCommand(command);
@@ -196,6 +199,7 @@ public class TextAdventure {
         }
     }
     public void processIndependentCommand(String command) {
+        // If the command is context independent, determine which command it is and call the correct method
         if (command.length() >= 4) {
             if (command.substring(0, 4).equals("info")) {
                 player.printInfo();
@@ -219,10 +223,12 @@ public class TextAdventure {
         }
     }
     public void processUnrecognizedCommand(String command) {
-        System.out.println(command + " is not a valid command in this context.");
+        // Standard error message
+        System.out.println("'" + command + "'" + " is not a valid command in this context.");
     }
 
     public void printLocationInfo(){
+        // Prints information based on the current game state
         if (currentState.equals("traps")) {
             System.out.println("You arrive at a long hallway. An empty pot lies on the ground, next to a pool of water. You can go to the left, where you see some suspicious looking holes in the walls. Or you can go the right, where you see a creepy gargoyle statue.");
         }
@@ -247,6 +253,7 @@ public class TextAdventure {
             String dragonOutcome = dragon.talk();
             if (dragonOutcome.equals("correct")) {
                 System.out.println("You exit the arena, into the sunlight which you haven't seen for a while. ");
+                gameOver = true;
                 gameOver();
             }
             else {
@@ -261,6 +268,7 @@ public class TextAdventure {
     }
     
     public void printHelp() {
+        // Documentation for the user
         System.out.println("Commands: ");
         System.out.println("GO {location}: moves to location if possible");
         System.out.println("LOOK {object}: prints description of object");

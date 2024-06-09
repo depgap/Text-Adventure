@@ -1,6 +1,8 @@
 public class Map {
+    // A class for the MAP item
 
     private final String[][] gameLayout = {
+            // Constant game map
             {"[ ]", "[arena]", "[trapped hallway]", "[traps]", "[ ]",},
             {"[ ]", "[     ]", "[hallway2       ]", "[wd   ]", "[ ]",},
             {"[ ]", "[cell ]", "[hallway        ]", "[wd   ]", "[ ]",},
