@@ -13,6 +13,7 @@ public class TextAdventure {
     private npc dareth;
     private String npcOutcome;
     private Map map;
+    private Dragon dragon;
 
     public TextAdventure() {
         gameOver = false;
@@ -22,6 +23,7 @@ public class TextAdventure {
         currentState = "cell";
         dareth = new npc();
         map = new Map();
+        dragon = new Dragon();
     }
 
     public void gameLoop() {
@@ -128,7 +130,7 @@ public class TextAdventure {
                     player.addItem("greatsword");
                 }
                 else if (command.equals("go north")) {
-                    currentState.equals("traps");
+                    currentState = "traps";
                     printLocationInfo();
                 }
                 else {
@@ -159,9 +161,36 @@ public class TextAdventure {
                if (!player.itemInInventory("waterpot")) {
                     System.out.println("You can't put out the fire and you take 10 damage");
                     player.changeHealth(-10);
+                    currentState = "arena";
+                    printLocationInfo();
                 }
                 if ((command.equals("use pot") || command.equals("use waterpot")) && player.itemInInventory("waterpot")) {
                     System.out.println("You use the pot to put out the fire, and you don't take any damage.");
+                    currentState = "arena";
+                    printLocationInfo();
+                }
+            }
+            else if (currentState.equals("boss")) {
+                if (command.equals("go east")) {
+                    System.out.println("You make a run for it. You're too slow and the dragon catches up. It scoops you in its talons and takes you back to the cell where you started, but this time you don't have a key.");
+                }
+                else if (command.equals("use sword") && player.itemInInventory("sword")) {
+                    System.out.println("The rusty sword bounces off of the dragon's hide, dealing no damage.");
+                    player.changeHealth(-50);
+                    System.out.println("You take 50 damage.");
+                }
+                else if (command.equals("use greatsword") && player.itemInInventory("greatsword")) {
+                    System.out.println("The greatsword deals a lot of damage.");
+                    dragon.takeDamage(500);
+                    if (dragon.getHealth() < 0) {
+                        System.out.println("Against all odds, you defeat the dragon.");
+                        gameOver();
+                    }
+                    System.out.println("The dragon retaliates and you take 50 damage");
+                    player.changeHealth(-50);
+                }
+                else {
+                    processUnrecognizedCommand(command);
                 }
             }
         }
@@ -193,10 +222,42 @@ public class TextAdventure {
         System.out.println(command + " is not a valid command in this context.");
     }
 
-    public void printLocationInfo() {
+    public void printLocationInfo(){
         if (currentState.equals("traps")) {
             System.out.println("You arrive at a long hallway. An empty pot lies on the ground, next to a pool of water. You can go to the left, where you see some suspicious looking holes in the walls. Or you can go the right, where you see a creepy gargoyle statue.");
         }
+        else if (currentState.equals("arena")) {
+            System.out.println("You arrive in a large open space. It is eerily empty, and quiet. An eerie countdown begins.");
+            try {
+                Thread.sleep(1000);
+                for (int i = 5; i >= 1; i--) {
+                    System.out.print(i);
+                    for (int j = 0; j < 5; j++) {
+                        Thread.sleep(250);
+                        System.out.print(".");
+                    }
+                    System.out.println();
+                }
+            }
+            catch (Exception e) {
+                System.out.println("Error");
+            }
+            dragon.print();
+            System.out.println("A dragon swoops down from the sky.");
+            String dragonOutcome = dragon.talk();
+            if (dragonOutcome.equals("correct")) {
+                System.out.println("You exit the arena, into the sunlight which you haven't seen for a while. ");
+                gameOver();
+            }
+            else {
+                currentState = "boss";
+                System.out.println("The dragon attacks you, breathing fire out of its mouth. You can try to make a run for it to the exit to the east or stand and fight.");
+            }
+        }
+    }
+
+    public void gameOver() {
+        System.out.println("GAME OVER");
     }
     
     public void printHelp() {

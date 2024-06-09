@@ -12,6 +12,7 @@ public class Enemy {
     }
     public void takeDamage(double dmg) {
         health -= dmg;
+        System.out.println(name + " loses " + dmg + " health");
         if (health <= 0) {
             die();
         }
