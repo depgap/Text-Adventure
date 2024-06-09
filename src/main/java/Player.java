@@ -123,5 +123,12 @@ public class Player {
     }
     public void changeHealth(double delta) {
         health += delta;
+        if (health <= 0) {
+            System.out.println("GAME OVER");
+            System.exit(0);
+        }
+    }
+    public double getHealth() {
+        return health;
     }
 }

@@ -88,11 +88,15 @@ public class TextAdventure {
                     npcOutcome = dareth.dialogueTree();
 
                     if (npcOutcome.equals("combat")) {
-                        if (player.itemInInventory("sword")) {
+                        if (player.itemInInventory("sword") && player.getHealth() >= 110) {
                             System.out.println("You use your sword to disarm Dareth. He lies gasping on the ground, no longer a threat.");
                             System.out.println("The greatsword he drops is much stronger than your current one.");
                             System.out.println("The only remaining path is to the north.");
                             currentState = "wd";
+                        }
+                        else if (player.itemInInventory("sword")) {
+                            System.out.println("Dareth attacks you, dealing 100 damage.");
+                            player.changeHealth(-100);
                         }
                         else {
                             System.out.println("You are defenseless against his attacks. You take 50 damage. You are forced to retreat to the north.");
