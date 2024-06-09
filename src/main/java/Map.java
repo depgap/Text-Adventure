@@ -10,8 +10,9 @@ public class Map {
     public void printMap() {
         for (int i = 0; i < gameLayout.length; i++) {
             for (int j = 0; j < gameLayout[0].length; j++) {
-                System.out.println(gameLayout[i][j]);
+                System.out.print(gameLayout[i][j] + " ");
             }
+            System.out.println();
         }
     }
 }

@@ -18,6 +18,7 @@ public class npc extends Enemy {
             if (response.equals("y")) {
                 while (true) {
                     System.out.println("NPC: A wise decision. We should continue north.");
+                    System.out.println("NPC: Take this map. It will help you find your way in your journey.");
 
                     System.out.println("1. Ask who he is.");
                     System.out.println("2. Do you know anything about this place?");
@@ -25,11 +26,11 @@ public class npc extends Enemy {
 
                     if (response.equals("1")) {
                         System.out.println("NPC: I am a former soldier who fought in the Great War 20 years ago. ");
-                        return "north";
+                        return "allies";
                     }
                     else if (response.equals("2")) {
                         System.out.println("NPC: This is a place where enemies of the state are imprisoned. It is strange that you would be able to leave your cell.");
-                        return "north";
+                        return "allies";
                     }
                     else {
                         System.out.println("NPC: I didn't understand that");

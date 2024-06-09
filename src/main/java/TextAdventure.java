@@ -35,7 +35,7 @@ public class TextAdventure {
 
     public void processCommand(String command) {
         // Short circuit evaluation to check if command is long enough to be one of the context independent commands
-        if (command.length() >= 4 && Arrays.asList(contextIndependentCommands).contains(command.substring(0, 4))) {
+        if (command.length() >= 4 && Arrays.asList(contextIndependentCommands).contains(command.substring(0, 4)) || command.equals("use map")) {
             processIndependentCommand(command);
         }
         else {
@@ -101,8 +101,9 @@ public class TextAdventure {
                             printLocationInfo();
                         }
                     }
-                    else if (npcOutcome.equals("north")) {
+                    else if (npcOutcome.equals("allies")) {
                         System.out.println("You go north.");
+                        player.addItem("map");
                         currentState = "traps";
                         printLocationInfo();
                     }
@@ -175,6 +176,7 @@ public class TextAdventure {
             }
             else if (command.equals("use map")) {
                 if (player.itemInInventory("map")) {
+                    System.out.println("map should be printing");
                     map.printMap();
                 }
                 else {
