@@ -11,7 +11,7 @@ public class TextAdventure {
     private String currentState; // Contains the current game location as a string which is used for interpreting context dependent commands
     Slime slime1 = new Slime();
     Slime slime2 = new Slime();
-    private npc dareth;
+    private Npc dareth;
     private String npcOutcome;
     private Map map;
     private Dragon dragon;
@@ -19,10 +19,10 @@ public class TextAdventure {
     public TextAdventure() {
         gameOver = false;
         scan = new Scanner(System.in);
-        contextIndependentCommands = new String[]{"info", "drop", "help", "use map"}; // This is the list of commands which should be able to be run in any situation
+        contextIndependentCommands = new String[]{"info", "drop", "help", "use map", "quit"}; // This is the list of commands which should be able to be run in any situation
         player = new Player();
         currentState = "cell";
-        dareth = new npc();
+        dareth = new Npc();
         map = new Map();
         dragon = new Dragon();
     }
@@ -35,6 +35,7 @@ public class TextAdventure {
             String command = scan.nextLine();
             processCommand(command);
         }
+        gameOver();
     }
 
     public void processCommand(String command) {
@@ -116,12 +117,17 @@ public class TextAdventure {
                         currentState = "traps";
                         printLocationInfo();
                     }
+                    else if (npcOutcome.equals("leave")) {
+                        System.out.println("You leave.");
+                        currentState = "traps";
+                        printLocationInfo();
+                    }
                 }
                 else if (command.equals("use sword") && player.itemInInventory("sword")) {
                     System.out.println("You attack the slimes.");
                     slime1.takeDamage(3);
                     slime2.takeDamage(3);
-                    System.out.println("The slimes drop a relic that increases your health.");
+                    System.out.println("\nThe slimes drop a relic that increases your health.");
                     player.setHealth(120);
                 }
                 else {
@@ -159,6 +165,9 @@ public class TextAdventure {
                     System.out.println("You fill up the pot with some of the nearby water");
                     player.changeItem("pot", "waterpot");
                 }
+                else {
+                    processUnrecognizedCommand(command);
+                }
             }
             else if (currentState.equals("trapped hallway")) {
                if (!player.itemInInventory("waterpot")) {
@@ -175,7 +184,8 @@ public class TextAdventure {
             }
             else if (currentState.equals("boss")) {
                 if (command.equals("go east")) {
-                    System.out.println("You make a run for it. You're too slow and the dragon catches up. It scoops you in its talons and takes you back to the cell where you started, but this time you don't have a key.");
+                    System.out.println("You make a run for it. You're too slow and the dragon catches up. It scoops you in its talons and takes you back to the cell where you started, but this time you don't have a key. You are now trapped in indefinite purgatory.");
+                    gameOver = true;
                 }
                 else if (command.equals("use sword") && player.itemInInventory("sword")) {
                     System.out.println("The rusty sword bounces off of the dragon's hide, dealing no damage.");
@@ -185,9 +195,10 @@ public class TextAdventure {
                 else if (command.equals("use greatsword") && player.itemInInventory("greatsword")) {
                     System.out.println("The greatsword deals a lot of damage.");
                     dragon.takeDamage(500);
-                    if (dragon.getHealth() < 0) {
-                        System.out.println("Against all odds, you defeat the dragon.");
-                        gameOver();
+                    if (dragon.getHealth() <= 0) {
+                        System.out.println("Against all odds, you defeat the dragon. You emerge from the dungeon greeted as a hero by the kingdom.");
+                        gameOver = true;
+                        System.exit(0);
                     }
                     System.out.println("The dragon retaliates and you take 50 damage");
                     player.changeHealth(-50);
@@ -201,24 +212,26 @@ public class TextAdventure {
     public void processIndependentCommand(String command) {
         // If the command is context independent, determine which command it is and call the correct method
         if (command.length() >= 4) {
-            if (command.substring(0, 4).equals("info")) {
+            if (command.startsWith("info")) {
                 player.printInfo();
                 System.out.println("Current location: " + currentState);
             }
-            else if (command.substring(0, 4).equals("drop")) {
+            else if (command.startsWith("drop") && command.length() > 5) {
                 player.removeItem(command.substring(5));
             }
-            else if (command.substring(0, 4).equals("help")) {
+            else if (command.startsWith("help")) {
                 printHelp();
             }
             else if (command.equals("use map")) {
                 if (player.itemInInventory("map")) {
-                    System.out.println("map should be printing");
                     map.printMap();
                 }
                 else {
                     processUnrecognizedCommand(command);
                 }
+            }
+            else if (command.startsWith("quit")) {
+                gameOver = true;
             }
         }
     }
@@ -276,6 +289,7 @@ public class TextAdventure {
         System.out.println("USE {object}: uses the main action of an object");
         System.out.println("DROP {object}: removes item from inventory (there is limited inventory space)");
         System.out.println("INFO: prints status of character");
+        System.out.println("QUIT: Exits the game");
         System.out.println("HELP: prints this message");
     }
 }

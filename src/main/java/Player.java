@@ -29,7 +29,7 @@ public class Player {
             if (inventory.size() < MAX_ITEMS) {
                 inventory.add(item);
                 sortInventory();
-                System.out.println("Added " + item + " to inventory");
+                System.out.println("Added " + "'" + item + "'" + " to inventory");
             } else {
                 System.out.println("Your inventory is full");
             }
@@ -42,13 +42,13 @@ public class Player {
         // Removes an item
         for (int i = 0; i < inventory.size(); i++) {
             if (item.equals(inventory.get(i))) {
-                System.out.println("Removed " + inventory.get(i));
+                System.out.println("Removed " +  "'" + inventory.get(i) + "'");
                 inventory.remove(i);
                 sortInventory();
                 return;
             }
         }
-        System.out.println("Could not find " + item + " in inventory");
+        System.out.println("Could not find " +  "'" + item +  "'" + " in inventory");
     }
     public void changeItem(String prevItem, String newItem) {
         // Modifies an item to a new state

@@ -29,7 +29,7 @@ public class Dragon extends Enemy {
         System.out.println("                  (vvv(VVV)(VVV)vvv)");
     }
     public String talk() {
-        System.out.println("DRAGON: Few adventurers have made it this far. If you can answer this riddle and prove yourself worthy, perhaps I will let you pass.");
+        System.out.println("DRAGON: Few adventurers have made it this far. If you can answer this riddle and prove yourself worthy, perhaps I will let you pass.\n");
         System.out.println("DRAGON: I’m not alive, but I grow;");
         System.out.println("DRAGON: I don't have lungs, but I need air;");
         System.out.println("DRAGON: I don't have a mouth, but water kills me;");

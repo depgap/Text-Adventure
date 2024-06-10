@@ -1,11 +1,11 @@
 import java.util.Scanner;
 
-public class npc extends Enemy {
+public class Npc extends Enemy {
     // This class contains methods and attributes that the NPC uses
 
     private Scanner scan = new Scanner(System.in);
 
-    public npc () {
+    public Npc() {
         super("Dareth", 200);
     }
     
@@ -41,13 +41,14 @@ public class npc extends Enemy {
                 }
             }
             else if (response.equals("n")) {
-                while (true) {
-                    response = scan.nextLine();
                     System.out.println("NPC: Unfortunate. However, it is wise not to trust strangers.");
                     System.out.println("1. Attack Dareth.");
                     System.out.println("2. Leave.");
                     System.out.println("3. Ask what he is doing here.");
 
+                while (true) {
+
+                    response = scan.nextLine();
                     if (response.equals("1")) {
                         System.out.println("You attack Dareth. He responds quickly and without hesitation.");
                         return "combat";
